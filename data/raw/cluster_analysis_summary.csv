@@ -1,0 +1,7 @@
+Cluster,Size,Countries,Top_Colors,Dominant_Region,Dominant_Colonial,Francophone,Anglophone
+1,4,"Djibouti, Lesotho, Nigeria, Sierra Leone","#fefefe, #6ab2e6, #11ad2b",West Africa (2/4),United Kingdom (3/4),1,3
+2,2,"Botswana, Somalia","#6da9d1, #000000, #fefffe",Southern Africa (1/2),United Kingdom (1/2),0,1
+3,4,"Democratic Republic of the Congo, Gabon, Rwanda, Tanzania","#007ffe, #ce1020, #f6d517",Central Africa (2/4),Belgium (1/4),3,1
+4,2,"Morocco, Tunisia","#c0262d, #e70013, #ffffff",North Africa (2/2),France/Spain (1/2),0,0
+5,20,"Algeria, Burundi, Cape Verde, Central African Republic, Comoros, Egypt, Equatorial Guinea, Eswatini, Gambia, Ivory Coast, Kenya, Liberia, Madagascar, Mozambique, Namibia, Niger, Seychelles, South Africa, South Sudan, Sudan","#fefefe, #000000, #d11033",East Africa (7/20),France (6/20),7,7
+6,22,"Angola, Benin, Burkina Faso, Cameroon, Chad, Republic of the Congo, Eritrea, Ethiopia, Ghana, Guinea, Guinea-Bissau, Libya, Malawi, Mali, Mauritania, Mauritius, Sao Tome and Principe, Senegal, Togo, Uganda, Zambia, Zimbabwe","#000000, #fbd015, #ce1125",West Africa (9/22),France (8/22),9,5

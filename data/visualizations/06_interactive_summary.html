@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chromatic Connections — African Flag Analysis</title>
+  <style>
+    :root {
+      --navy: #1a1f2e;
+      --navy-mid: #2d3448;
+      --gold: #F39C12;
+      --green: #27AE60;
+      --blue: #3498DB;
+      --red: #E74C3C;
+      --purple: #9B59B6;
+      --teal: #16A085;
+      --text: #1e2a38;
+      --muted: #6b7280;
+      --bg: #f4f5f7;
+      --border: #e5e7eb;
+      --radius: 14px;
+      --sh: 0 4px 20px rgba(0,0,0,0.08);
+      --sh-lg: 0 16px 50px rgba(0,0,0,0.18);
+      --ease: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system,'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6; }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:500;
+      background:rgba(26,31,46,0.96); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,0.08); }
+    .nav-inner { max-width:1200px; margin:0 auto; padding:13px 24px;
+      display:flex; align-items:center; justify-content:space-between; }
+    .nav-brand { color:#fff; font-weight:800; font-size:1.05em; letter-spacing:-.01em; }
+    .nav-brand em { font-style:normal; color:var(--gold); }
+    .nav-links { display:flex; gap:4px; }
+    .nav-links a { color:rgba(255,255,255,0.6); text-decoration:none; padding:6px 12px;
+      border-radius:7px; font-size:.87em; font-weight:500; transition:var(--ease); }
+    .nav-links a:hover, .nav-links a.active { color:#fff; background:rgba(255,255,255,0.1); }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero { background:linear-gradient(135deg,#1a1f2e 0%,#2d3448 50%,#1a1f2e 100%);
+      padding:130px 24px 90px; text-align:center; position:relative; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(circle at 15% 50%,rgba(243,156,18,.09) 0%,transparent 45%),
+        radial-gradient(circle at 85% 20%,rgba(52,152,219,.09) 0%,transparent 45%),
+        radial-gradient(circle at 55% 85%,rgba(39,174,96,.07) 0%,transparent 45%);
+      animation:drift 12s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform:translate(15px,8px) scale(1.02); } }
+    .hero-content { position:relative; max-width:820px; margin:0 auto; }
+    .hero-badge { display:inline-block; background:rgba(243,156,18,.18); color:var(--gold);
+      border:1px solid rgba(243,156,18,.4); border-radius:20px;
+      padding:5px 16px; font-size:.78em; font-weight:700; letter-spacing:.1em;
+      text-transform:uppercase; margin-bottom:22px; }
+    .hero h1 { font-size:clamp(2em,5.5vw,3.8em); color:#fff; font-weight:900;
+      letter-spacing:-.02em; margin-bottom:16px; line-height:1.1; }
+    .hero h1 em { font-style:normal; color:var(--gold); }
+    .hero p { color:rgba(255,255,255,.72); font-size:1.15em;
+      max-width:580px; margin:0 auto 38px; }
+    .hero-pills { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .pill { display:flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14);
+      border-radius:22px; padding:7px 15px; color:rgba(255,255,255,.82); font-size:.88em; }
+    .pill-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+    /* ── FINDING ─────────────────────────────────────────── */
+    .finding { background:#fff; padding:56px 24px; text-align:center;
+      border-bottom:5px solid var(--green); }
+    .finding-q { color:var(--muted); font-size:.85em; letter-spacing:.08em;
+      text-transform:uppercase; margin-bottom:10px; }
+    .finding-yes { font-size:clamp(3.5em,9vw,6.5em); font-weight:900;
+      color:var(--green); letter-spacing:-.03em; line-height:1; margin-bottom:14px; }
+    .finding-detail { font-size:1.15em; color:var(--text); max-width:560px; margin:0 auto; }
+    .finding-detail strong { color:var(--green); }
+
+    /* ── STATS ───────────────────────────────────────────── */
+    .stats { background:var(--navy); padding:52px 24px; }
+    .stats-inner { max-width:1000px; margin:0 auto;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:28px; }
+    .stat { text-align:center; }
+    .stat-num { font-size:3.4em; font-weight:900; color:var(--gold); line-height:1;
+      margin-bottom:6px; font-variant-numeric:tabular-nums; }
+    .stat-label { color:rgba(255,255,255,.75); font-size:.9em; }
+    .stat-sub { color:rgba(255,255,255,.38); font-size:.78em; margin-top:3px; }
+
+    /* ── SHARED SECTION ──────────────────────────────────── */
+    .section { padding:70px 24px; }
+    .section-alt { background:#fff; }
+    .section-inner { max-width:1200px; margin:0 auto; }
+    .section-tag { display:inline-block; background:rgba(243,156,18,.12); color:var(--gold);
+      border-radius:5px; padding:3px 10px; font-size:.78em; font-weight:700;
+      letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+    .section-title { font-size:clamp(1.5em,3vw,2em); font-weight:800;
+      color:var(--text); letter-spacing:-.02em; }
+    .section-sub { color:var(--muted); margin-top:6px; font-size:.97em; }
+    .section-header { margin-bottom:38px; }
+
+    /* ── SEARCH ──────────────────────────────────────────── */
+    .search-wrap { max-width:500px; position:relative; margin-bottom:32px; }
+    .search-input { width:100%; padding:12px 44px 12px 16px; border:2px solid var(--border);
+      border-radius:10px; font-size:.97em; font-family:inherit; color:var(--text);
+      background:#fff; transition:var(--ease); outline:none; }
+    .search-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(243,156,18,.15); }
+    .search-icon { position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      color:var(--muted); pointer-events:none; }
+    .search-result { margin-top:8px; padding:12px 16px; background:#fff;
+      border-radius:9px; border:1.5px solid var(--border); font-size:.9em;
+      display:none; line-height:1.5; box-shadow:var(--sh); }
+    .search-result.show { display:block; }
+
+    /* ── CLUSTER GRID ─────────────────────────────────────── */
+    .cluster-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; }
+    .cluster-card { background:#fff; border-radius:var(--radius); border:2px solid var(--border);
+      padding:22px; cursor:pointer; transition:var(--ease); position:relative; overflow:hidden;
+      opacity:0; transform:translateY(20px); }
+    .cluster-card.visible { opacity:1; transform:translateY(0); }
+    .cluster-card::after { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background:var(--cc); transform:scaleX(0); transform-origin:left; transition:transform .3s ease; }
+    .cluster-card:hover::after { transform:scaleX(1); }
+    .cluster-card:hover { border-color:var(--cc); box-shadow:var(--sh-lg); transform:translateY(-5px); }
+    .cluster-card.highlighted { border-color:var(--gold) !important;
+      box-shadow:0 0 0 4px rgba(243,156,18,.22),var(--sh) !important; }
+    .cc-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px; }
+    .cc-badge { width:38px; height:38px; border-radius:9px; display:flex; align-items:center;
+      justify-content:center; font-weight:900; font-size:1em; color:#fff; background:var(--cc); flex-shrink:0; }
+    .cc-count { background:var(--bg); border-radius:18px; padding:4px 12px;
+      font-size:.83em; font-weight:600; color:var(--muted); }
+    .cc-name { font-size:1.1em; font-weight:700; color:var(--text); margin-bottom:3px; }
+    .cc-sub { font-size:.82em; color:var(--muted); margin-bottom:14px; }
+    .cc-swatches { display:flex; gap:6px; margin-bottom:14px; align-items:center; }
+    .cc-swatch { width:22px; height:22px; border-radius:50%;
+      border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.18); }
+    .cc-swatch-label { font-size:.75em; color:var(--muted); }
+    .cc-flags { display:flex; gap:5px; align-items:center; margin-bottom:14px; height:34px; }
+    .cc-thumb { height:34px; width:51px; object-fit:cover; border-radius:5px;
+      border:1px solid var(--border); flex-shrink:0; }
+    .cc-more { height:34px; min-width:42px; border-radius:5px; background:var(--bg);
+      border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+      font-size:.75em; font-weight:700; color:var(--muted); }
+    .cc-cta { display:flex; align-items:center; gap:6px; font-size:.83em;
+      color:var(--cc); font-weight:700; transition:gap .2s ease; }
+    .cluster-card:hover .cc-cta { gap:10px; }
+
+    /* ── VIZ FRAMES ──────────────────────────────────────── */
+    .viz-frame { position:relative; cursor:zoom-in; border-radius:var(--radius);
+      overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.14);
+      transition:transform .3s ease, box-shadow .3s ease; }
+    .viz-frame:hover { transform:scale(1.01); box-shadow:0 20px 70px rgba(0,0,0,.22); }
+    .viz-frame img { width:100%; display:block; }
+    .viz-overlay { position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 60%);
+      opacity:0; transition:opacity .3s; display:flex; align-items:flex-end; padding:16px; }
+    .viz-frame:hover .viz-overlay { opacity:1; }
+    .viz-expand-btn { display:flex; align-items:center; gap:7px;
+      background:rgba(255,255,255,.95); border-radius:8px; padding:8px 16px;
+      font-size:.82em; font-weight:700; color:var(--text); box-shadow:var(--sh); }
+    .viz-caption { margin-top:12px; font-size:.85em; color:var(--muted);
+      text-align:center; line-height:1.5; }
+
+    /* ── FLAG GALLERY (01 + 02) ──────────────────────────── */
+    .viz-gallery-grid { display:grid; grid-template-columns:3fr 2fr; gap:24px; align-items:start; }
+    .viz-gallery-label { display:inline-flex; align-items:center; gap:7px;
+      font-size:.8em; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:12px; }
+    .viz-gallery-label span { display:inline-block; width:26px; height:26px;
+      border-radius:6px; background:var(--navy); color:#fff;
+      display:inline-flex; align-items:center; justify-content:center; font-size:.9em; }
+
+    /* ── GEOGRAPHIC SECTION ──────────────────────────────── */
+    .geo-section { background:var(--navy); padding:70px 24px; }
+    .geo-section .section-tag { background:rgba(243,156,18,.22); }
+    .geo-section .section-title { color:#fff; }
+    .geo-section .section-sub { color:rgba(255,255,255,.62); }
+    .geo-layout { display:grid; grid-template-columns:1fr 2fr; gap:48px; align-items:center; }
+    .geo-stats { display:flex; flex-direction:column; gap:18px; margin-top:32px; }
+    .geo-stat { display:flex; align-items:center; gap:14px; }
+    .geo-stat-num { font-size:2em; font-weight:900; color:var(--gold); line-height:1; flex-shrink:0; }
+    .geo-stat-label { color:#fff; font-weight:600; font-size:.95em; }
+    .geo-stat-sub { color:rgba(255,255,255,.5); font-size:.82em; }
+    .geo-map-wrap .viz-frame { box-shadow:0 20px 80px rgba(0,0,0,.5); }
+    .geo-map-wrap .viz-overlay { background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 50%); }
+
+    /* ── TIMELINE CHART ───────────────────────────────────── */
+    .chart-wrap { position:relative; margin:0 0 32px; user-select:none; }
+    .chart-svg { display:block; overflow:visible; width:100%; }
+    .chart-bar { transition:opacity .15s; cursor:default; }
+    .chart-bar:hover { opacity:.82; }
+    .chart-axis-label { font-family:inherit; font-size:11px; fill:var(--muted); }
+    .chart-y-label { font-family:inherit; font-size:11px; fill:var(--muted); }
+    .chart-annotation { font-family:inherit; }
+    /* Tooltip */
+    .chart-tip { position:absolute; background:var(--navy); color:#fff;
+      border-radius:10px; padding:10px 14px; font-size:.82em; line-height:1.55;
+      pointer-events:none; opacity:0; transition:opacity .15s;
+      box-shadow:0 8px 30px rgba(0,0,0,.35); max-width:220px; z-index:10; }
+    .chart-tip.show { opacity:1; }
+    .chart-tip b { display:block; font-size:1.05em; margin-bottom:4px; }
+    .chart-tip-row { display:flex; align-items:center; gap:6px; margin-top:3px; }
+    .chart-tip-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    /* Chart legend */
+    .chart-legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:14px; }
+    .chart-legend-item { display:flex; align-items:center; gap:6px; font-size:.8em; color:var(--muted); }
+    .chart-legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+    /* Timeline PNG toggle */
+    .tl-png-toggle { margin-top:40px; border-top:1px solid var(--border); padding-top:28px; }
+    .tl-toggle-btn { display:flex; align-items:center; gap:10px; background:none; border:2px solid var(--border);
+      border-radius:10px; padding:12px 20px; cursor:pointer; font-family:inherit;
+      font-size:.9em; font-weight:600; color:var(--text); transition:var(--ease); width:100%; justify-content:space-between; }
+    .tl-toggle-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .tl-toggle-btn .arrow { transition:transform .3s ease; display:inline-block; font-style:normal; }
+    .tl-toggle-btn.open .arrow { transform:rotate(180deg); }
+    .tl-png-wrap { max-height:0; overflow:hidden; transition:max-height .5s ease; }
+    .tl-png-wrap.open { max-height:800px; }
+    .tl-png-inner { padding-top:24px; }
+
+    /* ── FACTORS ──────────────────────────────────────────── */
+    .factor { margin-bottom:24px; }
+    .factor-head { display:flex; justify-content:space-between; margin-bottom:7px; }
+    .factor-lbl { font-weight:600; color:var(--text); font-size:.95em; }
+    .factor-note { font-size:.75em; color:var(--muted); margin-left:8px; font-weight:400; }
+    .factor-pct { font-weight:800; font-size:.95em; }
+    .factor-track { height:13px; background:var(--bg); border-radius:7px; overflow:hidden; }
+    .factor-fill { height:100%; border-radius:7px; width:0; transition:width 1.3s cubic-bezier(.4,0,.2,1); }
+
+    /* ── INSIGHTS ─────────────────────────────────────────── */
+    .insights-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+    .ins-card { background:#fff; border-radius:var(--radius); padding:24px; border-left:5px solid;
+      transition:var(--ease); opacity:0; transform:translateY(20px); }
+    .ins-card.visible { opacity:1; transform:translateY(0); }
+    .ins-card:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); }
+    .ins-icon { font-size:1.7em; margin-bottom:11px; line-height:1; }
+    .ins-title { font-weight:700; font-size:1em; margin-bottom:7px; }
+    .ins-text { color:var(--muted); font-size:.88em; line-height:1.65; }
+
+    /* ── INFOGRAPHIC SECTION ──────────────────────────────── */
+    .infographic-frame { max-width:900px; margin:0 auto; }
+
+    /* ── CONCLUSION ───────────────────────────────────────── */
+    .conclusion { background:var(--navy); padding:70px 24px; text-align:center; }
+    .conclusion-inner { max-width:750px; margin:0 auto; }
+    .conclusion h2 { font-size:clamp(1.6em,3.5vw,2.4em); color:#fff; font-weight:800; margin-bottom:18px; }
+    .conclusion p { color:rgba(255,255,255,.72); font-size:1.08em; line-height:1.85; }
+    .conclusion p strong { color:#fff; }
+    .conc-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+    .conc-tag { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+      border-radius:18px; padding:6px 16px; color:var(--gold); font-size:.88em; font-weight:600; }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    .footer { background:#12151e; padding:20px 24px; text-align:center;
+      color:rgba(255,255,255,.35); font-size:.83em; letter-spacing:.02em; }
+
+    /* ── MODAL ────────────────────────────────────────────── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:600;
+      display:flex; align-items:flex-end; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity .3s ease; backdrop-filter:blur(5px); }
+    .overlay.open { opacity:1; pointer-events:all; }
+    .modal { background:#fff; width:100%; max-width:1020px; max-height:92vh;
+      border-radius:20px 20px 0 0; overflow:hidden; display:flex; flex-direction:column;
+      transform:translateY(100%); transition:transform .4s cubic-bezier(.4,0,.2,1); }
+    .overlay.open .modal { transform:translateY(0); }
+    .modal-head { display:flex; align-items:center; justify-content:space-between;
+      padding:22px 28px; border-bottom:1px solid var(--border); flex-shrink:0; position:relative; }
+    .modal-accent { position:absolute; top:0; left:0; right:0; height:4px; }
+    .modal-cluster-tag { font-size:.76em; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:4px; }
+    .modal-title { font-size:1.35em; font-weight:800; color:var(--text); }
+    .modal-subtitle { color:var(--muted); font-size:.88em; }
+    .modal-x { width:36px; height:36px; border-radius:8px; border:none; background:var(--bg);
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      font-size:1.1em; transition:var(--ease); flex-shrink:0; }
+    .modal-x:hover { background:var(--border); }
+    .modal-body { overflow-y:auto; padding:26px 28px; flex:1; }
+    .modal-colors { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+    .m-color { display:flex; align-items:center; gap:8px; background:var(--bg); border-radius:8px; padding:8px 12px; }
+    .m-circ { width:26px; height:26px; border-radius:50%; border:2px solid #fff;
+      box-shadow:0 2px 8px rgba(0,0,0,.15); flex-shrink:0; }
+    .m-label small { display:block; font-size:.68em; color:var(--muted); }
+    .m-label span { font-size:.82em; font-weight:700; font-family:monospace; }
+    .modal-insight { background:rgba(243,156,18,.07); border-left:4px solid var(--gold);
+      border-radius:0 9px 9px 0; padding:13px 17px; font-size:.93em; color:var(--text);
+      margin-bottom:22px; line-height:1.6; }
+    .modal-flag-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+    .flag-card { border-radius:8px; overflow:hidden; border:2px solid var(--border);
+      transition:var(--ease); position:relative; }
+    .flag-card:hover { border-color:var(--gold); transform:scale(1.05);
+      box-shadow:0 8px 24px rgba(0,0,0,.16); z-index:1; }
+    .flag-ratio { position:relative; padding-top:60%; overflow:hidden; }
+    .flag-ratio img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .flag-hover { position:absolute; inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 55%);
+      display:flex; align-items:flex-end; padding:7px; opacity:0; transition:opacity .2s; }
+    .flag-card:hover .flag-hover { opacity:1; }
+    .flag-hover-text { color:#fff; font-size:.68em; line-height:1.35; }
+    .flag-hover-text strong { display:block; font-size:1.1em; }
+    .flag-name { padding:7px 6px; font-size:.72em; font-weight:600; text-align:center;
+      background:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); }
+
+    /* ── LIGHTBOX ─────────────────────────────────────────── */
+    .lightbox { position:fixed; inset:0; z-index:800;
+      background:rgba(0,0,0,0.93); backdrop-filter:blur(10px);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:24px; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+    .lightbox.open { opacity:1; pointer-events:all; }
+    .lb-img { max-width:90vw; max-height:83vh; object-fit:contain;
+      border-radius:10px; box-shadow:0 30px 100px rgba(0,0,0,.6);
+      transform:scale(0.96); transition:transform .35s ease; display:block; }
+    .lightbox.open .lb-img { transform:scale(1); }
+    .lb-caption { color:rgba(255,255,255,.65); font-size:.87em; margin-top:16px;
+      text-align:center; max-width:700px; line-height:1.5; }
+    .lb-close { position:absolute; top:20px; right:24px; width:40px; height:40px;
+      border-radius:10px; border:1.5px solid rgba(255,255,255,.2); background:rgba(255,255,255,.08);
+      color:#fff; font-size:1.1em; cursor:pointer; display:flex; align-items:center;
+      justify-content:center; transition:background .2s ease; }
+    .lb-close:hover { background:rgba(255,255,255,.18); }
+    .lb-hint { position:absolute; bottom:20px; color:rgba(255,255,255,.3);
+      font-size:.78em; letter-spacing:.05em; }
+
+    /* ── ANIMATIONS ───────────────────────────────────────── */
+    @keyframes popIn { 0%{transform:scale(.8);opacity:0} 70%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1} }
+    .pop-in { animation:popIn .5s ease forwards; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width:900px) {
+      .geo-layout { grid-template-columns:1fr; }
+      .geo-stats { flex-direction:row; flex-wrap:wrap; margin-top:20px; }
+      .viz-gallery-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:640px) {
+      .nav-links { display:none; }
+      .cluster-grid { grid-template-columns:1fr; }
+      .modal-flag-grid { grid-template-columns:repeat(auto-fill,minmax(95px,1fr)); }
+      .stats-inner { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-brand"><em>Chromatic</em> Connections</span>
+    <div class="nav-links">
+      <a href="#finding">Finding</a>
+      <a href="#clusters">Clusters</a>
+      <a href="#geography">Geography</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#insights">Insights</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Data Science · African Flags · March 2026</div>
+    <h1>Chromatic <em>Connections</em></h1>
+    <p>A data-driven exploration of color patterns, cultural identity, and post-colonial symbolism across 54 African flags</p>
+    <div class="hero-pills">
+      <div class="pill"><div class="pill-dot" style="background:#6ab2e6"></div>54 Countries</div>
+      <div class="pill"><div class="pill-dot" style="background:#F39C12"></div>7 Clusters</div>
+      <div class="pill"><div class="pill-dot" style="background:#27AE60"></div>39 Features</div>
+      <div class="pill"><div class="pill-dot" style="background:#9B59B6"></div>K-Means + Hierarchical</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINDING ───────────────────────────────────────────────── -->
+<section class="finding" id="finding">
+  <div class="finding-q">Research question: Do flags with similar colors reflect deeper connections?</div>
+  <div class="finding-yes" id="finding-yes">YES</div>
+  <div class="finding-detail">
+    <strong>Geography, ideology &amp; design era</strong> predict color patterns<br>more strongly than colonial heritage alone
+  </div>
+</section>
+
+<!-- ── STATS ─────────────────────────────────────────────────── -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num" data-target="54">0</div>
+      <div class="stat-label">Countries Analyzed</div>
+      <div class="stat-sub">All 54 African nations</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="7">0</div>
+      <div class="stat-label">Optimal Clusters</div>
+      <div class="stat-sub">Silhouette-score optimized</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="39">0</div>
+      <div class="stat-label">Features / Country</div>
+      <div class="stat-sub">Geography · History · Design</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="26">0</div>
+      <div class="stat-label">Largest Cluster</div>
+      <div class="stat-sub">Panafricanist movement</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CLUSTER EXPLORER ──────────────────────────────────────── -->
+<section class="section" id="clusters">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Cluster Explorer</div>
+      <h2 class="section-title">7 Color Groups — Click Any to Explore</h2>
+      <p class="section-sub">Each cluster groups flags sharing similar color compositions. Click a card to see all flags, or search any country below.</p>
+    </div>
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="search" placeholder="Search a country (e.g. Ghana, Kenya, Tunisia)…" autocomplete="off">
+      <svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <div class="search-result" id="search-result"></div>
+    </div>
+    <div class="cluster-grid" id="cluster-grid"></div>
+  </div>
+</section>
+
+<!-- ── FLAG GALLERY ──────────────────────────────────────────── -->
+<section class="section section-alt" id="flag-gallery">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Visualizations</div>
+      <h2 class="section-title">All 54 Flags — Grouped by Color Similarity</h2>
+      <p class="section-sub">The cluster structure revealed visually. Click either image to expand full-screen.</p>
+    </div>
+    <div class="viz-gallery-grid">
+      <!-- Flag grid -->
+      <div>
+        <div class="viz-gallery-label">
+          <span>01</span> Cluster Flag Grid
+        </div>
+        <div class="viz-frame" data-src="01_cluster_flag_grid.png"
+             data-caption="All 54 African flags arranged by color cluster — geographic and ideological patterns emerge immediately">
+          <img src="01_cluster_flag_grid.png" alt="All 54 African flags arranged by color cluster" loading="lazy">
+          <div class="viz-overlay">
+            <div class="viz-expand-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              Expand full-screen
+            </div>
+          </div>
+        </div>
+        <p class="viz-caption">Cluster 4 (Panafricanist) dominates with 26 countries — visually striking in yellow-red-green</p>
+      </div>
+      <!-- Color palettes -->
+      <div>
+        <div class="viz-gallery-label">
+          <span>02</span> Dominant Color Palettes
+        </div>
+        <div class="viz-frame" data-src="02_cluster_color_palettes.png"
+             data-caption="Dominant color palettes extracted for each of the 7 clusters — revealing Panafricanist and Socialist patterns">
+          <img src="02_cluster_color_palettes.png" alt="Dominant color palettes by cluster" loading="lazy">
+          <div class="viz-overlay">
+            <div class="viz-expand-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              Expand full-screen
+            </div>
+          </div>
+        </div>
+        <p class="viz-caption">Each row is a cluster's color fingerprint — note Cluster 6's distinctive black-green-red-gold pattern</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GEOGRAPHIC DISTRIBUTION ───────────────────────────────── -->
+<section class="geo-section" id="geography">
+  <div class="section-inner">
+    <div class="geo-layout">
+      <!-- Text side -->
+      <div class="geo-text">
+        <div class="section-tag">Geographic Analysis</div>
+        <h2 class="section-title" style="color:#fff;margin-top:8px">Where Clusters Land on the Map</h2>
+        <p class="section-sub" style="margin-top:10px">Geographic proximity is the single strongest predictor of color clustering — outperforming shared colonial power, language group, and economic bloc membership.</p>
+        <div class="geo-stats">
+          <div class="geo-stat">
+            <div class="geo-stat-num">90%</div>
+            <div class="geo-stat-info">
+              <div class="geo-stat-label">Geographic correlation</div>
+              <div class="geo-stat-sub">Strongest factor by far</div>
+            </div>
+          </div>
+          <div class="geo-stat">
+            <div class="geo-stat-num">10/26</div>
+            <div class="geo-stat-info">
+              <div class="geo-stat-label">Panafricanist flags from West Africa</div>
+              <div class="geo-stat-sub">Strongest regional cohesion</div>
+            </div>
+          </div>
+          <div class="geo-stat">
+            <div class="geo-stat-num">1</div>
+            <div class="geo-stat-info">
+              <div class="geo-stat-label">Solo cluster (Tunisia)</div>
+              <div class="geo-stat-sub">Ottoman aesthetic — geographically isolated</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Map side -->
+      <div class="geo-map-wrap">
+        <div class="viz-gallery-label" style="color:rgba(255,255,255,.5);margin-bottom:12px">
+          <span style="background:rgba(255,255,255,.12)">03</span> Geographic Cluster Map
+        </div>
+        <div class="viz-frame" data-src="03_geographic_cluster_map.png"
+             data-caption="Geographic distribution of the 7 flag color clusters across Africa — revealing strong regional cohesion that transcends colonial boundaries">
+          <img src="03_geographic_cluster_map.png" alt="Geographic distribution of flag color clusters across Africa" loading="lazy">
+          <div class="viz-overlay">
+            <div class="viz-expand-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              Expand full-screen
+            </div>
+          </div>
+        </div>
+        <p class="viz-caption" style="color:rgba(255,255,255,.45)">Yellow = Panafricanist cluster · Red = Socialist Liberation · Orange = Mixed Regional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TIMELINE ──────────────────────────────────────────────── -->
+<section class="section section-alt" id="timeline">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Temporal Analysis</div>
+      <h2 class="section-title">When Africa Chose Its Colors</h2>
+      <p class="section-sub">Flags adopted per decade, stacked by cluster. Hover any bar segment for details.</p>
+    </div>
+    <!-- Interactive SVG chart -->
+    <div class="chart-wrap" id="chart-wrap">
+      <svg class="chart-svg" id="chart-svg" viewBox="0 0 820 300" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="chart-tip" id="chart-tip"></div>
+    </div>
+    <div class="chart-legend" id="chart-legend"></div>
+    <!-- Static PNG toggle -->
+    <div class="tl-png-toggle" style="margin-top:32px">
+      <button class="tl-toggle-btn" id="tl-toggle-btn">
+        <span>View full flag adoption chart (stacked by cluster)</span>
+        <em class="arrow">↓</em>
+      </button>
+      <div class="tl-png-wrap" id="tl-png-wrap">
+        <div class="tl-png-inner">
+          <div class="viz-gallery-label">
+            <span>04</span> Flag Adoption Timeline
+          </div>
+          <div class="viz-frame" data-src="04_timeline_flag_adoptions.png"
+               data-caption="Evolution of African flag designs by decade — the 1960s Independence Wave was the defining moment for continental identity">
+            <img src="04_timeline_flag_adoptions.png" alt="Evolution of African flag designs over time" loading="lazy">
+            <div class="viz-overlay">
+              <div class="viz-expand-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                Expand full-screen
+              </div>
+            </div>
+          </div>
+          <p class="viz-caption">17 flags adopted in the 1960s alone — the 1960s Independence Wave shaped continental identity more than any other decade</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FACTORS ───────────────────────────────────────────────── -->
+<section class="section" id="factors">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Correlation Analysis</div>
+      <h2 class="section-title">What Drives Color Similarity?</h2>
+      <p class="section-sub">Relative influence of each factor on cluster membership. Values represent comparative strength, not formal correlation coefficients.</p>
+    </div>
+    <div id="factors-chart"></div>
+  </div>
+</section>
+
+<!-- ── INSIGHTS ──────────────────────────────────────────────── -->
+<section class="section section-alt" id="insights">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Key Insights</div>
+      <h2 class="section-title">What the Colors Tell Us</h2>
+    </div>
+    <div class="insights-grid" id="insights-grid"></div>
+  </div>
+</section>
+
+<!-- ── RESEARCH INFOGRAPHIC ──────────────────────────────────── -->
+<section class="section" id="infographic">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Research Summary</div>
+      <h2 class="section-title">Full Analysis at a Glance</h2>
+      <p class="section-sub">Methodology, findings, key insights, and conclusion — click to expand full-screen.</p>
+    </div>
+    <div class="infographic-frame">
+      <div class="viz-gallery-label">
+        <span>05</span> Research Summary Infographic
+      </div>
+      <div class="viz-frame" data-src="05_research_summary_infographic.png"
+           data-caption="Chromatic Connections — complete research summary including methodology, cluster statistics, Panafricanist pattern, and key findings">
+        <img src="05_research_summary_infographic.png" alt="Complete research summary infographic" loading="lazy">
+        <div class="viz-overlay">
+          <div class="viz-expand-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Expand full-screen
+          </div>
+        </div>
+      </div>
+      <p class="viz-caption">Full research summary — methodology, cluster stats, Panafricanist three-wave pattern, factor correlations, and key insights</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSION ────────────────────────────────────────────── -->
+<div class="conclusion">
+  <div class="conclusion-inner">
+    <h2>The Story in the Colors</h2>
+    <p>Post-independence Africa chose its own colors. Flags tell a story of <strong>regional solidarity</strong>, <strong>ideological movements</strong>, <strong>design evolution</strong>, and <strong>cultural assertion</strong>.<br><br>Colonial history matters — but geography and ideology matter more.</p>
+    <div class="conc-tags">
+      <span class="conc-tag">Geographic Proximity</span>
+      <span class="conc-tag">Panafricanist Ideology</span>
+      <span class="conc-tag">Design Era</span>
+      <span class="conc-tag">Cultural Identity</span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Chromatic Connections &nbsp;·&nbsp; 54 African Flags &nbsp;·&nbsp; K-Means + Hierarchical Clustering &nbsp;·&nbsp; Marie &nbsp;·&nbsp; 2026
+</div>
+
+<!-- ── CLUSTER MODAL ──────────────────────────────────────────── -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-accent" id="modal-accent"></div>
+      <div>
+        <div class="modal-cluster-tag" id="modal-tag"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-subtitle" id="modal-subtitle"></div>
+      </div>
+      <button class="modal-x" id="modal-x">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ── LIGHTBOX ───────────────────────────────────────────────── -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
+  <div class="lb-hint">Press ESC or click outside to close</div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const IMG = '../flags_images/';
+
+// Exact cluster colors from notebook (cluster_colors dict in 04_visualizations.ipynb)
+const CL_COLOR = {1:'#4A90E2',2:'#87CEEB',3:'#50C878',4:'#FFD700',5:'#FF8C00',6:'#DC143C',7:'#E74C3C'};
+
+const CLUSTERS = [
+  {
+    id:1, name:'Blue-Green Simplicity', sub:'British Anglophone Legacy', accent:'#4A90E2',
+    colors:[['#006633','Forest Green'],['#6ab2e6','Sky Blue'],['#fefefe','White']],
+    insight:'Clean, geometric flags dominated by forest green and sky blue — primarily former British colonies sharing a minimal, high-contrast aesthetic that stands apart from Panafricanist trends.',
+    countries:[
+      {name:'Lesotho',      img:'Lesotho.png',      region:'Southern Africa', colonial:'United Kingdom', indep:1966, flagYear:2006},
+      {name:'Nigeria',      img:'Nigeria.png',       region:'West Africa',     colonial:'United Kingdom', indep:1960, flagYear:1960},
+      {name:'Sierra Leone', img:'Sierra_Leone.png',  region:'West Africa',     colonial:'United Kingdom', indep:1961, flagYear:1961},
+    ]
+  },
+  {
+    id:2, name:'Blue-Dominant Outliers', sub:'Stark Bicolor Contrast', accent:'#87CEEB',
+    colors:[['#6da9d1','Cerulean Blue'],['#fefffe','White'],['#000000','Black']],
+    insight:'Two nations — Botswana and Somalia — share an unusually restrained palette dominated by light blue and stark black-white contrast, standing apart from every regional and ideological trend.',
+    countries:[
+      {name:'Botswana', img:'Botswana.png', region:'Southern Africa', colonial:'United Kingdom', indep:1966, flagYear:1966},
+      {name:'Somalia',  img:'Somalia.png',  region:'East Africa',     colonial:'Italy / UK',    indep:1960, flagYear:1960},
+    ]
+  },
+  {
+    id:3, name:'Central-East Africa Pattern', sub:'Blue, Red & Gold Triad', accent:'#50C878',
+    colors:[['#007ffe','Royal Blue'],['#ce1020','Bold Red'],['#f6d517','Golden Yellow']],
+    insight:'Four Central and East African nations share striking tricolor designs built from a vivid primary triad. Despite different colonial powers (Belgium, France, UK), their flags converge on the same bold palette.',
+    countries:[
+      {name:'Dem. Rep. of the Congo', img:'Democratic_Republic_of_the_Congo.png', region:'Central Africa', colonial:'Belgium',        indep:1960, flagYear:2006},
+      {name:'Gabon',                  img:'Gabon.png',                             region:'Central Africa', colonial:'France',         indep:1960, flagYear:1960},
+      {name:'Rwanda',                 img:'Rwanda.png',                            region:'East Africa',    colonial:'Belgium',        indep:1962, flagYear:2001},
+      {name:'Tanzania',               img:'Tanzania.png',                          region:'East Africa',    colonial:'United Kingdom', indep:1961, flagYear:1964},
+    ]
+  },
+  {
+    id:4, name:'Panafricanist & Complex Patterns', sub:'The Dominant Cluster — 26 Nations', accent:'#FFD700',
+    colors:[['#fbd015','Panafricanist Gold'],['#ce1125','Revolutionary Red'],['#1a3a1a','Deep Green']],
+    insight:'The defining cluster: 26 nations across every colonial boundary unite around the Panafricanist palette. French 50%, British 23%, Portuguese 15% — ideology completely transcends colonial heritage. 10 of 26 from West Africa.',
+    countries:[
+      {name:'Angola',              img:'Angola.png',             region:'Central Africa', colonial:'Portugal',       indep:1975, flagYear:1975},
+      {name:'Benin',               img:'Benin.png',              region:'West Africa',    colonial:'France',         indep:1960, flagYear:1990},
+      {name:'Burkina Faso',        img:'Burkina_Faso.png',       region:'West Africa',    colonial:'France',         indep:1960, flagYear:1984},
+      {name:'Cameroon',            img:'Cameroon.png',           region:'Central Africa', colonial:'France / UK',    indep:1960, flagYear:1975},
+      {name:'Cape Verde',          img:'Cape_Verde.png',         region:'West Africa',    colonial:'Portugal',       indep:1975, flagYear:1992},
+      {name:'Central Afr. Rep.',   img:'Central_African_Republic.png', region:'Central Africa', colonial:'France',  indep:1960, flagYear:1958},
+      {name:'Comoros',             img:'Comoros.png',            region:'East Africa',    colonial:'France',         indep:1975, flagYear:2001},
+      {name:'Ethiopia',            img:'Ethiopia.png',           region:'East Africa',    colonial:'Never colonized',indep:1941, flagYear:1996},
+      {name:'Ghana',               img:'Ghana.png',              region:'West Africa',    colonial:'United Kingdom', indep:1957, flagYear:1957},
+      {name:'Guinea',              img:'Guinea.png',             region:'West Africa',    colonial:'France',         indep:1958, flagYear:1958},
+      {name:'Guinea-Bissau',       img:'Guinea-Bissau.png',      region:'West Africa',    colonial:'Portugal',       indep:1974, flagYear:1973},
+      {name:'Kenya',               img:'Kenya.png',              region:'East Africa',    colonial:'United Kingdom', indep:1963, flagYear:1963},
+      {name:'Malawi',              img:'Malawi.png',             region:'Southern Africa',colonial:'United Kingdom', indep:1964, flagYear:2012},
+      {name:'Mali',                img:'Mali.png',               region:'West Africa',    colonial:'France',         indep:1960, flagYear:1961},
+      {name:'Mozambique',          img:'Mozambique.png',         region:'Southern Africa',colonial:'Portugal',       indep:1975, flagYear:1983},
+      {name:'Namibia',             img:'Namibia.png',            region:'Southern Africa',colonial:'Germany / SA',   indep:1990, flagYear:1990},
+      {name:'Rep. of the Congo',   img:'Republic_of_the_Congo.png', region:'Central Africa', colonial:'France',     indep:1960, flagYear:1992},
+      {name:'Sao Tome & Principe', img:'Sao_Tome_and_Principe.png', region:'Central Africa', colonial:'Portugal',   indep:1975, flagYear:1975},
+      {name:'Senegal',             img:'Senegal.png',            region:'West Africa',    colonial:'France',         indep:1960, flagYear:1960},
+      {name:'South Africa',        img:'South_Africa.png',       region:'Southern Africa',colonial:'United Kingdom', indep:1910, flagYear:1994},
+      {name:'South Sudan',         img:'South_Sudan.png',        region:'East Africa',    colonial:'United Kingdom', indep:2011, flagYear:2011},
+      {name:'Uganda',              img:'Uganda.png',             region:'East Africa',    colonial:'United Kingdom', indep:1962, flagYear:1962},
+      {name:'Zambia',              img:'Zambia.png',             region:'Southern Africa',colonial:'United Kingdom', indep:1964, flagYear:1964},
+      {name:'Zimbabwe',            img:'Zimbabwe.png',           region:'Southern Africa',colonial:'United Kingdom', indep:1980, flagYear:1980},
+      {name:'Togo',                img:'Togo.png',               region:'West Africa',    colonial:'France',         indep:1960, flagYear:1960},
+      {name:'Niger',               img:'Niger.png',              region:'West Africa',    colonial:'France',         indep:1960, flagYear:1959},
+    ]
+  },
+  {
+    id:5, name:'Mixed Regional Patterns', sub:'9 Varied Compositions', accent:'#FF8C00',
+    colors:[['#d11033','Vivid Red'],['#fefefe','White'],['#000033','Deep Blue']],
+    insight:'Nine countries with diverse, complex compositions that resist simple categorization. Spanning multiple regions and colonial backgrounds, they share sophisticated multi-element designs rather than a single color theme.',
+    countries:[
+      {name:'Algeria',          img:'Algeria.png',          region:'North Africa',   colonial:'France',              indep:1962, flagYear:1962},
+      {name:'Burundi',          img:'Burundi.png',          region:'East Africa',    colonial:'Belgium',             indep:1962, flagYear:1967},
+      {name:'Egypt',            img:'Egypt.png',            region:'North Africa',   colonial:'United Kingdom',      indep:1922, flagYear:1984},
+      {name:'Equatorial Guinea',img:'Equatorial_Guinea.png',region:'Central Africa', colonial:'Spain',               indep:1968, flagYear:1979},
+      {name:'Gambia',           img:'Gambia.png',           region:'West Africa',    colonial:'United Kingdom',      indep:1965, flagYear:1965},
+      {name:'Madagascar',       img:'Madagascar.png',       region:'East Africa',    colonial:'France',              indep:1960, flagYear:1958},
+      {name:'Mauritius',        img:'Mauritius.png',        region:'East Africa',    colonial:'United Kingdom',      indep:1968, flagYear:1968},
+      {name:'Seychelles',       img:'Seychelles.png',       region:'East Africa',    colonial:'United Kingdom',      indep:1976, flagYear:1996},
+      {name:'Sudan',            img:'Sudan.png',            region:'East Africa',    colonial:'United Kingdom',      indep:1956, flagYear:1970},
+    ]
+  },
+  {
+    id:6, name:'Socialist Liberation', sub:'Red, Black & Gold Palette', accent:'#DC143C',
+    colors:[['#000000','Black'],['#008000','Liberation Green'],['#f0c000','Gold']],
+    insight:'Nine nations united by the red-black-gold socialist liberation palette. Many adopted flags during or shortly after independence movements with strong Marxist influence, creating deliberate color solidarity.',
+    countries:[
+      {name:'Chad',        img:'Chad.png',        region:'Central Africa', colonial:'France',         indep:1960, flagYear:1959},
+      {name:'Eritrea',     img:'Eritrea.png',      region:'East Africa',    colonial:'Italy',          indep:1993, flagYear:1993},
+      {name:'Eswatini',    img:'Eswatini.png',     region:'Southern Africa',colonial:'United Kingdom', indep:1968, flagYear:1968},
+      {name:'Ivory Coast', img:'Ivory_Coast.png',  region:'West Africa',    colonial:'France',         indep:1960, flagYear:1959},
+      {name:'Libya',       img:'Libya.png',        region:'North Africa',   colonial:'Italy',          indep:1951, flagYear:2011},
+      {name:'Liberia',     img:'Liberia.png',      region:'West Africa',    colonial:'Never colonized',indep:1847, flagYear:1847},
+      {name:'Mauritania',  img:'Mauritania.png',   region:'West Africa',    colonial:'France',         indep:1960, flagYear:2017},
+      {name:'Morocco',     img:'Morocco.png',      region:'North Africa',   colonial:'France / Spain', indep:1956, flagYear:1915},
+      {name:'Djibouti',    img:'Djibouti.png',     region:'East Africa',    colonial:'France',         indep:1977, flagYear:1977},
+    ]
+  },
+  {
+    id:7, name:'North African Outlier', sub:'Tunisia — Ottoman Aesthetic', accent:'#E74C3C',
+    colors:[['#e70013','Ottoman Red'],['#ffffff','Pure White']],
+    insight:"Tunisia is the only solo-country cluster — maintaining its Ottoman-era red crescent-and-star design while virtually the entire continent adopted new postcolonial palettes. The exception that proves the rule: most flags DO cluster strongly.",
+    countries:[
+      {name:'Tunisia', img:'Tunisia.png', region:'North Africa', colonial:'France', indep:1956, flagYear:1831},
+    ]
+  },
+];
+
+
+const FACTORS = [
+  {label:'Geographic Proximity',   note:'(cluster purity)',         pct:90, color:'#3498DB'},
+  {label:'Panafricanist Ideology', note:'(cross-colonial spread)',  pct:85, color:'#27AE60'},
+  {label:'Socialist Movement',     note:'(red-black palette)',      pct:70, color:'#E74C3C'},
+  {label:'Design Era',             note:'(adoption decade)',        pct:65, color:'#9B59B6'},
+  {label:'Colonial Power',         note:'(weaker than expected)',   pct:50, color:'#95A5A6'},
+];
+
+const INSIGHTS = [
+  {icon:'🌍', color:'#3498DB', title:'Geographic Pattern',
+   text:'West African countries cluster most strongly together. 10 of 26 Panafricanist flags originate from West Africa, despite it spanning multiple colonial empires.'},
+  {icon:'⏳', color:'#F39C12', title:'Three Adoption Waves',
+   text:'Panafricanist colors spread in three bursts: 1950s pioneers (Ghana, Guinea), the massive 1960s Independence Wave (17 flags), and a 1990s resurgence during democratization.'},
+  {icon:'✊', color:'#27AE60', title:'Ideology Transcends History',
+   text:'Panafricanist colors cross colonial lines: French 50%, British 23%, Portuguese 15%. Political solidarity, not a shared colonizer, drove the palette choice.'},
+  {icon:'📐', color:'#9B59B6', title:'Design Evolution',
+   text:'1960s flags used simple horizontal or vertical stripes. By the 1990s, complex diagonals, Y-shapes, and radiating patterns became the norm — reflecting growing differentiation.'},
+  {icon:'🏛️', color:'#E74C3C', title:'The Exception Proves the Rule',
+   text:"Tunisia is the only solo cluster — maintaining its Ottoman-era aesthetic while the continent moved on. Its isolation confirms just how universal the Panafricanist pull was."},
+  {icon:'☪️', color:'#16A085', title:'Religious Influence',
+   text:'Islamic symbolism (crescents, stars, green) appears across North and West Africa but does not override geographic or political clustering — it intersects without dominating.'},
+];
+
+// ── BUILD CLUSTERS ────────────────────────────────────────────
+function buildClusters() {
+  const grid = document.getElementById('cluster-grid');
+  CLUSTERS.forEach((cl, i) => {
+    const card = document.createElement('div');
+    card.className = 'cluster-card';
+    card.style.setProperty('--cc', cl.accent);
+    card.style.transitionDelay = (i * 70) + 'ms';
+    card.dataset.id = cl.id;
+
+    const swatches = cl.colors.map(([hex, name]) =>
+      `<div class="cc-swatch" style="background:${hex}" title="${name} · ${hex}"></div>`
+    ).join('');
+
+    const previewCount = Math.min(4, cl.countries.length);
+    const thumbs = cl.countries.slice(0, previewCount).map(c =>
+      `<img class="cc-thumb" src="${IMG}${c.img}" alt="${c.name}" loading="lazy">`
+    ).join('');
+    const more = cl.countries.length > 4
+      ? `<div class="cc-more">+${cl.countries.length - 4}</div>` : '';
+
+    card.innerHTML = `
+      <div class="cc-top">
+        <div class="cc-badge">${cl.id}</div>
+        <div class="cc-count">${cl.countries.length} ${cl.countries.length === 1 ? 'country' : 'countries'}</div>
+      </div>
+      <div class="cc-name">${cl.name}</div>
+      <div class="cc-sub">${cl.sub}</div>
+      <div class="cc-swatches">${swatches}<span class="cc-swatch-label">dominant colors</span></div>
+      <div class="cc-flags">${thumbs}${more}</div>
+      <div class="cc-cta">
+        <span>Explore all flags</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>`;
+
+    card.addEventListener('click', () => openModal(cl.id));
+    grid.appendChild(card);
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, {threshold:0.1});
+  document.querySelectorAll('.cluster-card').forEach(c => obs.observe(c));
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function openModal(id) {
+  const cl = CLUSTERS.find(c => c.id === id);
+  if (!cl) return;
+  document.getElementById('modal-tag').textContent     = `Cluster ${cl.id} of ${CLUSTERS.length}`;
+  document.getElementById('modal-title').textContent   = cl.name;
+  document.getElementById('modal-subtitle').textContent = cl.sub;
+  document.getElementById('modal-accent').style.background = cl.accent;
+
+  const swatches = cl.colors.map(([hex, name]) => `
+    <div class="m-color">
+      <div class="m-circ" style="background:${hex}"></div>
+      <div class="m-label"><small>${name}</small><span>${hex}</span></div>
+    </div>`).join('');
+
+  const flags = cl.countries.map(c => `
+    <div class="flag-card">
+      <div class="flag-ratio">
+        <img src="${IMG}${c.img}" alt="${c.name}" loading="lazy">
+        <div class="flag-hover">
+          <div class="flag-hover-text">
+            <strong>${c.name}</strong>
+            ${c.region} · ${c.colonial}<br>Indep. ${c.indep}
+          </div>
+        </div>
+      </div>
+      <div class="flag-name" title="${c.name}">${c.name}</div>
+    </div>`).join('');
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-colors">${swatches}</div>
+    <div class="modal-insight">${cl.insight}</div>
+    <div class="modal-flag-grid">${flags}</div>`;
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-x').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('overlay')) closeModal();
+});
+
+// ── LIGHTBOX ──────────────────────────────────────────────────
+function openLightbox(src, caption) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-caption').textContent = caption || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  // only restore scroll if modal also closed
+  if (!document.getElementById('overlay').classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+
+function initLightboxes() {
+  document.querySelectorAll('.viz-frame').forEach(frame => {
+    frame.addEventListener('click', () => {
+      openLightbox(frame.dataset.src, frame.dataset.caption);
+    });
+  });
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  });
+}
+
+// ── TIMELINE TOGGLE ───────────────────────────────────────────
+function initTimelineToggle() {
+  const btn  = document.getElementById('tl-toggle-btn');
+  const wrap = document.getElementById('tl-png-wrap');
+  btn.addEventListener('click', () => {
+    const open = wrap.classList.toggle('open');
+    btn.classList.toggle('open', open);
+  });
+}
+
+// ── SEARCH ────────────────────────────────────────────────────
+function initSearch() {
+  const inp    = document.getElementById('search');
+  const result = document.getElementById('search-result');
+  const cards  = document.querySelectorAll('.cluster-card');
+
+  inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase();
+    result.className = 'search-result';
+    cards.forEach(c => c.classList.remove('highlighted'));
+    if (!q) return;
+
+    let found = null;
+    for (const cl of CLUSTERS) {
+      const match = cl.countries.find(c => c.name.toLowerCase().includes(q));
+      if (match) { found = {cl, match}; break; }
+    }
+
+    if (found) {
+      const {cl, match} = found;
+      result.innerHTML = `<b>${match.name}</b> → Cluster ${cl.id}: <b>${cl.name}</b> &nbsp;·&nbsp; ${match.region} · ${match.colonial} · Indep. ${match.indep}`;
+      result.className = 'search-result show';
+      const card = document.querySelector(`.cluster-card[data-id="${cl.id}"]`);
+      if (card) { card.classList.add('highlighted'); card.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+    } else {
+      result.innerHTML = `<span style="color:var(--muted)">No match for "<em>${inp.value}</em>"</span>`;
+      result.className = 'search-result show';
+    }
+  });
+}
+
+// ── COUNTERS ──────────────────────────────────────────────────
+function initCounters() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = +el.dataset.target;
+      let start = 0;
+      const step = ts => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / 1200, 1);
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = target;
+      };
+      requestAnimationFrame(step);
+      obs.unobserve(el);
+    });
+  }, {threshold:0.5});
+  document.querySelectorAll('.stat-num[data-target]').forEach(s => obs.observe(s));
+}
+
+// ── INTERACTIVE TIMELINE CHART ────────────────────────────────
+function buildTimeline() {
+  // Bucket by flag adoption decade + cluster
+  const buckets = {};
+  CLUSTERS.forEach(cl => {
+    cl.countries.forEach(c => {
+      const decade = Math.floor(c.flagYear / 10) * 10;
+      if (!buckets[decade]) buckets[decade] = {};
+      if (!buckets[decade][cl.id]) buckets[decade][cl.id] = [];
+      buckets[decade][cl.id].push(c.name);
+    });
+  });
+
+  const allDecades = Object.keys(buckets).map(Number).sort((a,b)=>a-b);
+  const maxY = Math.max(...allDecades.map(d => Object.values(buckets[d]).reduce((s,a)=>s+a.length,0)));
+
+  // SVG constants (viewBox 820×300)
+  const M={top:28,right:16,bottom:52,left:42};
+  const W=820-M.left-M.right, H=300-M.top-M.bottom;
+  const xStep = W/allDecades.length;
+  const barW  = Math.max(14, Math.min(36, xStep-6));
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('chart-svg');
+  const mk=(tag,attrs)=>{const el=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>el.setAttribute(k,v));return el;};
+
+  // Grid lines
+  [0,.25,.5,.75,1].forEach(t=>{
+    const yv=Math.round(t*maxY);
+    const y=M.top+H-(t*H);
+    svg.appendChild(mk('line',{x1:M.left,x2:M.left+W,y1:y,y2:y,stroke:'#e5e7eb','stroke-width':t===0?'1.5':'1','stroke-dasharray':t===0?'':'3 3'}));
+    if(yv>0){const lbl=mk('text',{x:M.left-6,y:y+4,'text-anchor':'end',class:'chart-y-label'});lbl.textContent=yv;svg.appendChild(lbl);}
+  });
+
+  // Y-axis label
+  const yl=mk('text',{x:11,y:M.top+H/2,'text-anchor':'middle','font-size':'10',fill:'#9ca3af',transform:`rotate(-90,11,${M.top+H/2})`});
+  yl.textContent='Flags adopted'; svg.appendChild(yl);
+
+  const tip=document.getElementById('chart-tip');
+
+  // Stacked bars
+  allDecades.forEach((decade,i)=>{
+    const data=buckets[decade];
+    const xC=M.left+i*xStep+xStep/2;
+    const xL=xC-barW/2;
+    let yBottom=M.top+H;
+
+    [1,2,3,4,5,6,7].forEach(cid=>{
+      const countries=(data[cid]||[]);
+      if(!countries.length)return;
+      const bh=(countries.length/maxY)*H;
+      const rect=mk('rect',{x:xL,y:yBottom-bh,width:barW,height:bh,fill:CL_COLOR[cid],rx:'2',class:'chart-bar'});
+
+      // Grow-from-bottom animation
+      rect.style.transformOrigin=`${xL+barW/2}px ${M.top+H}px`;
+      rect.style.transform='scaleY(0)';
+      rect.style.transition=`transform .65s cubic-bezier(.4,0,.2,1) ${i*25}ms`;
+      svg.appendChild(rect);
+
+      rect.addEventListener('mouseenter',ev=>{
+        tip.innerHTML=`<b>${decade}s · Cluster ${cid}</b><div style="color:rgba(255,255,255,.6);font-size:.9em;margin-bottom:4px">${CLUSTERS.find(c=>c.id===cid).name}</div>${countries.map(n=>`<div class="chart-tip-row"><div class="chart-tip-dot" style="background:${CL_COLOR[cid]}"></div>${n}</div>`).join('')}`;
+        tip.classList.add('show');
+      });
+      rect.addEventListener('mousemove',ev=>{
+        const r=document.getElementById('chart-wrap').getBoundingClientRect();
+        let tx=ev.clientX-r.left+14, ty=ev.clientY-r.top-14;
+        if(tx+230>r.width) tx=ev.clientX-r.left-234;
+        if(ty<0) ty=6;
+        tip.style.left=tx+'px'; tip.style.top=ty+'px';
+      });
+      rect.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+      yBottom-=bh;
+    });
+
+    // X label (every other decade if crowded)
+    if(allDecades.length<=12 || i%2===0){
+      const lbl=mk('text',{x:xC,y:M.top+H+18,'text-anchor':'middle',class:'chart-axis-label'});
+      lbl.textContent=decade+'s'; svg.appendChild(lbl);
+    }
+    svg.appendChild(mk('line',{x1:xC,x2:xC,y1:M.top+H,y2:M.top+H+4,stroke:'#d1d5db','stroke-width':'1'}));
+  });
+
+  // Annotation: 1960s peak
+  const i60=allDecades.indexOf(1960);
+  if(i60>=0){
+    const x60=M.left+i60*xStep+xStep/2;
+    const tot60=Object.values(buckets[1960]).reduce((s,a)=>s+a.length,0);
+    const y60=M.top+H-(tot60/maxY)*H;
+    // dashed highlight line
+    svg.insertBefore(mk('line',{x1:x60,x2:x60,y1:M.top,y2:M.top+H,stroke:'#F39C12','stroke-width':'1.5','stroke-dasharray':'4 3',opacity:'.5'}),svg.firstChild);
+    const ann=mk('text',{x:x60+4,y:Math.max(y60-8,M.top+14),'font-size':'10',fill:'#F39C12','font-weight':'600'});
+    ann.textContent=`${tot60} flags (1960s wave)`; svg.appendChild(ann);
+  }
+
+  // Scroll-trigger: animate bars in
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      svg.querySelectorAll('.chart-bar').forEach(r=>{r.style.transform='scaleY(1)';});
+      obs.unobserve(e.target);
+    });
+  },{threshold:0.25});
+  obs.observe(svg);
+
+  // Legend
+  const leg=document.getElementById('chart-legend');
+  CLUSTERS.forEach(cl=>{
+    const item=document.createElement('div');
+    item.className='chart-legend-item';
+    item.innerHTML=`<div class="chart-legend-dot" style="background:${CL_COLOR[cl.id]}"></div>${cl.name}`;
+    leg.appendChild(item);
+  });
+}
+
+// ── FACTORS ───────────────────────────────────────────────────
+function buildFactors() {
+  const container = document.getElementById('factors-chart');
+  FACTORS.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'factor';
+    div.innerHTML = `
+      <div class="factor-head">
+        <div class="factor-lbl">${f.label}<span class="factor-note">${f.note}</span></div>
+        <div class="factor-pct" style="color:${f.color}">${f.pct}%</div>
+      </div>
+      <div class="factor-track">
+        <div class="factor-fill" data-w="${f.pct}" style="background:linear-gradient(90deg,${f.color},${f.color}cc)"></div>
+      </div>`;
+    container.appendChild(div);
+  });
+  const fills = container.querySelectorAll('.factor-fill');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      fills.forEach((f, i) => setTimeout(() => { f.style.width = f.dataset.w + '%'; }, i * 120));
+      obs.unobserve(e.target);
+    });
+  }, {threshold:0.4});
+  obs.observe(container);
+}
+
+// ── INSIGHTS ──────────────────────────────────────────────────
+function buildInsights() {
+  const grid = document.getElementById('insights-grid');
+  INSIGHTS.forEach((ins, i) => {
+    const card = document.createElement('div');
+    card.className = 'ins-card';
+    card.style.borderLeftColor = ins.color;
+    card.style.transitionDelay = (i * 70) + 'ms';
+    card.innerHTML = `
+      <div class="ins-icon">${ins.icon}</div>
+      <div class="ins-title" style="color:${ins.color}">${ins.title}</div>
+      <div class="ins-text">${ins.text}</div>`;
+    grid.appendChild(card);
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, {threshold:0.15});
+  document.querySelectorAll('.ins-card').forEach(c => obs.observe(c));
+}
+
+// ── ACTIVE NAV ────────────────────────────────────────────────
+function initNav() {
+  const links = document.querySelectorAll('.nav-links a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  ['finding','clusters','geography','timeline','insights'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+}
+
+// ── ESC KEY ───────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (document.getElementById('lightbox').classList.contains('open')) { closeLightbox(); return; }
+  closeModal();
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildClusters();
+  buildTimeline();
+  buildFactors();
+  buildInsights();
+  initCounters();
+  initSearch();
+  initLightboxes();
+  initTimelineToggle();
+  initNav();
+  setTimeout(() => document.getElementById('finding-yes').classList.add('pop-in'), 300);
+});
+</script>
+</body>
+</html>

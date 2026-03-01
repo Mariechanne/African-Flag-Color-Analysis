@@ -1,0 +1,7 @@
+cluster,Country,Region,Colonial_Power,Language_Group,n_countries
+1,"['Djibouti', 'Lesotho', 'Nigeria', 'Sierra Leone']",West Africa,United Kingdom,Anglophone,4
+2,"['Botswana', 'Somalia']",East Africa,United Kingdom,Anglophone,2
+3,"['Democratic Republic of the Congo', 'Gabon', 'Rwanda', 'Tanzania']",Central Africa,Belgium,Francophone,4
+4,"['Morocco', 'Tunisia']",North Africa,France/Spain,Arabophone,2
+5,"['Algeria', 'Burundi', 'Cape Verde', 'Central African Republic', 'Comoros', 'Egypt', 'Equatorial Guinea', 'Eswatini', 'Gambia', 'Ivory Coast', 'Kenya', 'Liberia', 'Madagascar', 'Mozambique', 'Namibia', 'Niger', 'Seychelles', 'South Africa', 'South Sudan', 'Sudan']",East Africa,France,Francophone,20
+6,"['Angola', 'Benin', 'Burkina Faso', 'Cameroon', 'Chad', 'Republic of the Congo', 'Eritrea', 'Ethiopia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Libya', 'Malawi', 'Mali', 'Mauritania', 'Mauritius', 'Sao Tome and Principe', 'Senegal', 'Togo', 'Uganda', 'Zambia', 'Zimbabwe']",West Africa,France,Francophone,22

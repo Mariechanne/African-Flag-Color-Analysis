@@ -1,0 +1,55 @@
+Country,Region,Colonial_Power,Independence_Year,Official_Language,Language_Group
+Algeria,North Africa,France,1962.0,Arabic,Arabophone
+Angola,Central Africa,Portugal,1975.0,Portuguese,Lusophone
+Benin,West Africa,France,1960.0,French,Francophone
+Botswana,Southern Africa,United Kingdom,1966.0,English,Anglophone
+Burkina Faso,West Africa,France,1960.0,French,Francophone
+Burundi,East Africa,Belgium/Germany,1962.0,Kirundi/French,Francophone
+Cameroon,Central Africa,France/Germany,1960.0,French/English,Francophone
+Cape Verde,West Africa,Portugal,1975.0,Portuguese,Lusophone
+Central African Republic,Central Africa,France,1960.0,French,Francophone
+Chad,Central Africa,France,1960.0,French/Arabic,Francophone
+Comoros,East Africa,France,1975.0,Arabic/French,Francophone
+Democratic Republic of the Congo,Central Africa,Belgium,1960.0,French,Francophone
+Republic of the Congo,Central Africa,France,1960.0,French,Francophone
+Djibouti,East Africa,France,1977.0,French/Arabic,Francophone
+Egypt,North Africa,United Kingdom,1922.0,Arabic,Arabophone
+Equatorial Guinea,Central Africa,Spain,1968.0,Spanish,Hispanophone
+Eritrea,East Africa,Italy,1993.0,Tigrinya,Other
+Eswatini,Southern Africa,United Kingdom,1968.0,English/Swati,Anglophone
+Ethiopia,East Africa,None,,Amharic,Other
+Gabon,Central Africa,France,1960.0,French,Francophone
+Gambia,West Africa,United Kingdom,1965.0,English,Anglophone
+Ghana,West Africa,United Kingdom,1957.0,English,Anglophone
+Guinea,West Africa,France,1958.0,French,Francophone
+Guinea-Bissau,West Africa,Portugal,1974.0,Portuguese,Lusophone
+Ivory Coast,West Africa,France,1960.0,French,Francophone
+Kenya,East Africa,United Kingdom,1963.0,Swahili/English,Anglophone
+Lesotho,Southern Africa,United Kingdom,1966.0,English/Sesotho,Anglophone
+Liberia,West Africa,United States,1847.0,English,Anglophone
+Libya,North Africa,Italy,1951.0,Arabic,Arabophone
+Madagascar,East Africa,France,1960.0,Malagasy/French,Francophone
+Malawi,Southern Africa,United Kingdom,1964.0,English,Anglophone
+Mali,West Africa,France,1960.0,French,Francophone
+Mauritania,West Africa,France,1960.0,Arabic,Arabophone
+Mauritius,East Africa,United Kingdom,1968.0,English,Anglophone
+Morocco,North Africa,France/Spain,1956.0,Arabic,Arabophone
+Mozambique,Southern Africa,Portugal,1975.0,Portuguese,Lusophone
+Namibia,Southern Africa,Germany/South Africa,1990.0,English,Anglophone
+Niger,West Africa,France,1960.0,French,Francophone
+Nigeria,West Africa,United Kingdom,1960.0,English,Anglophone
+Rwanda,East Africa,Belgium/Germany,1962.0,Kinyarwanda/French/English,Francophone
+Sao Tome and Principe,Central Africa,Portugal,1975.0,Portuguese,Lusophone
+Senegal,West Africa,France,1960.0,French,Francophone
+Seychelles,East Africa,United Kingdom,1976.0,English/French/Creole,Francophone
+Sierra Leone,West Africa,United Kingdom,1961.0,English,Anglophone
+Somalia,East Africa,Italy/United Kingdom,1960.0,Somali/Arabic,Arabophone
+South Africa,Southern Africa,United Kingdom/Netherlands,1910.0,Multiple,Other
+South Sudan,East Africa,United Kingdom/Egypt,2011.0,English,Anglophone
+Sudan,East Africa,United Kingdom/Egypt,1956.0,Arabic/English,Anglophone
+Tanzania,East Africa,Germany/United Kingdom,1961.0,Swahili/English,Anglophone
+Togo,West Africa,France/Germany,1960.0,French,Francophone
+Tunisia,North Africa,France,1956.0,Arabic,Arabophone
+Uganda,East Africa,United Kingdom,1962.0,English/Swahili,Anglophone
+Zambia,Southern Africa,United Kingdom,1964.0,English,Anglophone
+Zimbabwe,Southern Africa,United Kingdom,1980.0,Multiple,Other
