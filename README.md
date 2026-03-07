@@ -194,7 +194,7 @@ african_flags_project/
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Mariechanne/African-Flag-Color-Analysis
 cd african_flags_project
 
 # Create and activate a virtual environment (recommended)
@@ -303,7 +303,7 @@ This project was created as a data science portfolio piece demonstrating:
 - **Visual storytelling** — 5 publication-quality charts + a fully interactive web report
 - **Technical range** — data collection → processing → ML → static viz → interactive HTML
 
-**Author:** Marie
+**Author:** Marie Chandeste MEDETADJI MIGAN
 **Date:** March 2026
 **Contact:** Available for data science roles and collaborations
 
