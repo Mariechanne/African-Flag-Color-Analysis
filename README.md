@@ -142,7 +142,7 @@ One-page visual summary: primary finding, cluster distribution, correlation stre
 ### 6. Interactive Summary — Full Web Experience
 A fully interactive HTML report with animated stats, cluster exploration modals, flag hover metadata, country search, and a scroll-animated SVG timeline.
 
-**[Open Interactive Summary]([data/visualizations/06_interactive_summary.html](https://htmlpreview.github.io/?https://github.com/Mariechanne/African-Flag-Color-Analysis/blob/main/data/visualizations/06_interactive_summary.html)**
+**[Open Interactive Summary](https://htmlpreview.github.io/?https://github.com/Mariechanne/African-Flag-Color-Analysis/blob/main/data/visualizations/06_interactive_summary.html)**
 
 > Works offline — open directly in any modern browser, no server required.
 
